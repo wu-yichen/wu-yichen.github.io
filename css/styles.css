@@ -12,7 +12,7 @@
 */
 body {
     font-family: 'Lato', sans-serif;
-    font-size: 16px
+    font-size: 16px;
 }
 
 body.active {
@@ -191,7 +191,7 @@ header.sticky {
     display: none;
     text-align: right;
     width: 100%;
-    background: #fff;
+    background: #222121;
     font-size: 1.5em;
     padding-right: 15px;
     padding-top: 10px;
@@ -208,9 +208,9 @@ header.sticky {
     vertical-align: middle
 }
 
-footer {
-    padding: 50px 0
-}
+/*footer {*/
+/*    padding: 0 0*/
+/*}*/
 
 .copyright {
     padding-top: 20px
@@ -280,9 +280,9 @@ footer {
     text-decoration: none
 }
 
-.shadow {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)
-}
+/*.shadow {*/
+/*    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)*/
+/*}*/
 
 .shadow-large {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08), 0 3px 6px rgba(0, 0, 0, 0.15)
@@ -317,7 +317,8 @@ footer {
     height: 100vh;
     min-height: 500px;
     max-height: 1080px;
-    background: url(../images/bg.jpg);
+    background-color: #090808;
+    /*background: url(../images/bg.jpg);*/
     background-size: cover;
     padding: 15px;
     overflow: hidden
@@ -351,28 +352,30 @@ footer {
     font-weight: 500;
     font-size: 2.25em;
     margin-bottom: 15px;
+    letter-spacing: 0.15em;
     font-family: 'Raleway', Arial, sans-serif;
 }
 
 #lead-content h3 {
-    color: #a0cfee;
+    color: orange;
     font-weight: 500;
     font-size: 17px;
     margin-bottom: 15px;
-    font-family: 'ibrebaskerville-regular', Arial, sans-serif;
+    letter-spacing: 0.1em;
+    font-family: 'Raleway', Arial, sans-serif;
 }
 
-#lead-overlay {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    /*background: rgba(33, 125, 187, 0.8);*/
-    z-index: 1
-}
+/*#lead-overlay {*/
+/*    position: absolute;*/
+/*    height: 100%;*/
+/*    width: 100%;*/
+/*    top: 0;*/
+/*    right: 0;*/
+/*    bottom: 0;*/
+/*    left: 0;*/
+/*    !*background: rgba(33, 125, 187, 0.8);*!*/
+/*    z-index: 1*/
+/*}*/
 
 #lead-down {
     position: absolute;
@@ -415,17 +418,23 @@ footer {
 }
 
 #about {
-    padding: 75px 15px;
+    /*padding: 75px 15px;*/
+    padding: 50px 15px;
+    text-align: center;
     border-bottom: 1px solid #dcd9d9
 }
 
 #about h2 {
-    color: #374054
+    color: #acc3f3
 }
 
 #about p {
-    color: #74808a;
-    margin: 0
+    color: #fcfcfc;
+    margin: 0;
+    font-size: 0.9em;
+    width: 50%;
+    text-align: left;
+
 }
 
 #experience {
@@ -435,7 +444,7 @@ footer {
 }
 
 #experience h2 {
-    color: #374054
+    color: #acc3f3
 }
 
 #experience-timeline {
@@ -540,7 +549,7 @@ footer {
 }
 
 #education h2 {
-    color: #374054;
+    color: #acc3f3;
     margin-bottom: 50px
 }
 
@@ -565,7 +574,7 @@ footer {
 }
 
 .education-block h4 {
-    color: #74808a;
+    color: #edeeee;
     clear: both;
     font-weight: 500;
     margin: 0 0 15px 0
@@ -573,7 +582,7 @@ footer {
 
 .education-block p, .education-block ul {
     margin: 0;
-    color: #74808a;
+    color: #f3f3f3;
     font-size: 0.9em
 }
 
