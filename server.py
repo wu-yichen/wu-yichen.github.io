@@ -1,10 +1,8 @@
 import os
-from flask import Flask, render_template, request, redirect, jsonify, request, Response
+import openai
+from flask import Flask, render_template, redirect, request, Response
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
-from langchain import OpenAI
-import openai
-from openai.error import RateLimitError
 
 
 app = Flask(__name__)
@@ -30,22 +28,19 @@ def prompt(query):
 
 
 def stream(input_text):
-    try:
-        completion = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You're an assistant."},
-                {"role": "user", "content": f"{input_text}"},
-            ],
-            stream=True,
-            max_tokens=500,
-            temperature=0,
-        )
-        for line in completion:
-            if "content" in line["choices"][0]["delta"]:
-                yield line["choices"][0]["delta"]["content"]
-    except RateLimitError:
-        return "The server is experiencing a high volume of requests. Please try again later."
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You're an assistant."},
+            {"role": "user", "content": f"{input_text}"},
+        ],
+        stream=True,
+        max_tokens=500,
+        temperature=0,
+    )
+    for line in completion:
+        if "content" in line["choices"][0]["delta"]:
+            yield line["choices"][0]["delta"]["content"]
 
 
 @app.route("/")
@@ -58,11 +53,9 @@ def work1():
     if request.method == "POST":
         data = request.form
         input_text = data["user_input"]
-        print(input_text)
         return Response(stream(input_text), mimetype="text/event-stream")
-    else:
-        print("input_text")
-        return Response(None, mimetype="text/event-stream")
+
+    return Response(None, mimetype="text/event-stream")
 
 
 @app.route("/<string:page_name>")
