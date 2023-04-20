@@ -123,8 +123,8 @@
               <small class="pull-right">Irina Martin</small>
             </blockquote> -->
             <div class="chat-container">
-              <form id="chat-form">
-                <input type="text" id="user-input" name="user_input" placeholder="Type your message..." />
+              <form id="input-form" method="post">
+                <input type="text" name="input_text" placeholder="Type your message..." />
                 <button type="submit" id="submitBtn">Send</button>
               </form>
               <div id="result"></div>
@@ -159,15 +159,15 @@
   </footer>
 
   <script>
-    var searchForm = document.getElementById('chat-form');
+    var searchForm = document.getElementById('input-form');
     searchForm.addEventListener('submit', async function (event) {
       event.preventDefault();
 
       var formData = new FormData(searchForm);
-      formData.append('user_input', searchForm.elements.user_input.value);
+      formData.append('input_text', searchForm.elements.input_text.value);
 
       try {
-        const response = await fetch('/work1', {
+        const response = await fetch('/work2', {
           method: 'POST',
           body: formData
         });
@@ -183,6 +183,7 @@
         console.error(error);
       }
     });
+
     document.addEventListener("DOMContentLoaded", function (event) {
       navActivePage();
     });
