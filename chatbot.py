@@ -25,7 +25,7 @@ chatgpt_chain = LLMChain(
                callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]), verbose=True, temperature=0),
     prompt=prompt,
     verbose=True,
-    memory=ConversationBufferWindowMemory(),
+    memory=ConversationBufferWindowMemory(k=5),
 )
 
 
