@@ -1,27 +1,27 @@
 import os
 import openai
 
-from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.vectorstores import Chroma
-
-
+# from langchain.embeddings.openai import OpenAIEmbeddings
+# from langchain.vectorstores import Chroma
+#
+#
 openai.api_key = os.getenv("OPENAI_API_KEY")
-embeddings = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_API_KEY"))
-docsearch = Chroma(embedding_function=embeddings, persist_directory="database/")
+# embeddings = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_API_KEY"))
+# docsearch = Chroma(embedding_function=embeddings, persist_directory="database/")
 
 
-def gen_prompt(docs, query) -> str:
-    return f""" To answer the question please only use the Context given, nothing else.
-                Do not make up answer, simply say 'I don't know' if you are not sure.
-                Question: {query}
-                Context: {[doc.page_content for doc in docs]}
-                Answer:
-            """
-
-
-def prompt(query):
-    docs = docsearch.similarity_search(query, k=4)
-    return gen_prompt(docs, query)
+# def gen_prompt(docs, query) -> str:
+#     return f""" To answer the question please only use the Context given, nothing else.
+#                 Do not make up answer, simply say 'I don't know' if you are not sure.
+#                 Question: {query}
+#                 Context: {[doc.page_content for doc in docs]}
+#                 Answer:
+#             """
+#
+#
+# def prompt(query):
+#     docs = docsearch.similarity_search(query, k=4)
+#     return gen_prompt(docs, query)
 
 
 def stream(input_text):
@@ -29,7 +29,7 @@ def stream(input_text):
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You're an assistant."},
-            {"role": "user", "content": f"{prompt(input_text)}"},
+            {"role": "user", "content": f"{input_text}"},
         ],
         stream=True,
         max_tokens=500,
