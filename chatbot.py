@@ -2,7 +2,7 @@ import openai
 from langchain import OpenAI, LLMChain, PromptTemplate
 from langchain.callbacks.base import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
-from langchain.memory import ConversationBufferWindowMemory
+from langchain.memory import ConversationBufferWindowMemory, ConversationSummaryBufferMemory, ConversationBufferMemory
 
 template = """Assistant is a large language model trained by OpenAI.
 
@@ -20,12 +20,15 @@ prompt = PromptTemplate(
     input_variables=["history", "human_input"],
     template=template
 )
+
+llm = OpenAI(streaming=True,
+             callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]), verbose=True, temperature=0)
+
 chatgpt_chain = LLMChain(
-    llm=OpenAI(streaming=True,
-               callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]), verbose=True, temperature=0),
+    llm=llm,
     prompt=prompt,
     verbose=True,
-    memory=ConversationBufferWindowMemory(k=5),
+    memory=ConversationBufferWindowMemory(k=6),
 )
 
 
