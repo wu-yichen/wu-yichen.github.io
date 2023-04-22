@@ -1,27 +1,35 @@
-import os
 import openai
+from langchain import OpenAI, LLMChain, PromptTemplate
+from langchain.callbacks.base import CallbackManager
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+from langchain.memory import ConversationBufferWindowMemory
 
-# from langchain.embeddings.openai import OpenAIEmbeddings
-# from langchain.vectorstores import Chroma
-#
-#
-openai.api_key = os.getenv("OPENAI_API_KEY")
-# embeddings = OpenAIEmbeddings(openai_api_key=os.getenv("OPENAI_API_KEY"))
-# docsearch = Chroma(embedding_function=embeddings, persist_directory="database/")
+template = """Assistant is a large language model trained by OpenAI.
+
+Assistant is designed to be able to assist with a wide range of tasks, from answering simple questions to providing in-depth explanations and discussions on a wide range of topics. As a language model, Assistant is able to generate human-like text based on the input it receives, allowing it to engage in natural-sounding conversations and provide responses that are coherent and relevant to the topic at hand.
+
+Assistant is constantly learning and improving, and its capabilities are constantly evolving. It is able to process and understand large amounts of text, and can use this knowledge to provide accurate and informative responses to a wide range of questions. Additionally, Assistant is able to generate its own text based on the input it receives, allowing it to engage in discussions and provide explanations and descriptions on a wide range of topics.
+
+Overall, Assistant is a powerful tool that can help with a wide range of tasks and provide valuable insights and information on a wide range of topics. Whether you need help with a specific question or just want to have a conversation about a particular topic, Assistant is here to assist.
+
+{history}
+Human: {human_input}
+Assistant:"""
 
 
-# def gen_prompt(docs, query) -> str:
-#     return f""" To answer the question please only use the Context given, nothing else.
-#                 Do not make up answer, simply say 'I don't know' if you are not sure.
-#                 Question: {query}
-#                 Context: {[doc.page_content for doc in docs]}
-#                 Answer:
-#             """
-#
-#
-# def prompt(query):
-#     docs = docsearch.similarity_search(query, k=4)
-#     return gen_prompt(docs, query)
+def stream2(input_text):
+    prompt = PromptTemplate(
+        input_variables=["history", "human_input"],
+        template=template
+    )
+    chatgpt_chain = LLMChain(
+        llm=OpenAI(streaming=True,
+                   callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]), verbose=True, temperature=0),
+        prompt=prompt,
+        verbose=True,
+        memory=ConversationBufferWindowMemory(k=2),
+    )
+    yield chatgpt_chain.predict(human_input=input_text).split()
 
 
 def stream(input_text):
