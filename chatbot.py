@@ -16,20 +16,21 @@ Overall, Assistant is a powerful tool that can help with a wide range of tasks a
 Human: {human_input}
 Assistant:"""
 
+prompt = PromptTemplate(
+    input_variables=["history", "human_input"],
+    template=template
+)
+chatgpt_chain = LLMChain(
+    llm=OpenAI(streaming=True,
+               callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]), verbose=True, temperature=0),
+    prompt=prompt,
+    verbose=True,
+    memory=ConversationBufferWindowMemory(),
+)
+
 
 def stream2(input_text):
-    prompt = PromptTemplate(
-        input_variables=["history", "human_input"],
-        template=template
-    )
-    chatgpt_chain = LLMChain(
-        llm=OpenAI(streaming=True,
-                   callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]), verbose=True, temperature=0),
-        prompt=prompt,
-        verbose=True,
-        memory=ConversationBufferWindowMemory(k=2),
-    )
-    yield chatgpt_chain.predict(human_input=input_text).split()
+    return chatgpt_chain.predict(human_input=input_text)
 
 
 def stream(input_text):
